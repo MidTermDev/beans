@@ -46,10 +46,11 @@ export default function Home() {
   };
 
   const calculateTrade = (rt: number, rs: number, bs: number) => {
-    const PSN = 100;
-    const PSNH = 100000;
-    const numerator = PSN * bs;
-    const denominator = PSNH + (PSN * rs + PSNH * rt) / rt;
+    const PSN = 5000;  // Match contract
+    const PSNH = 10000; // Match contract
+    // Linear formula: (amount * market_eggs * PSN) / (vault_balance * PSNH)
+    const numerator = rt * bs * PSN;
+    const denominator = rs * PSNH;
     return Math.floor(numerator / denominator);
   };
 
@@ -63,9 +64,10 @@ export default function Home() {
       try {
         const lamports = parseFloat(buyAmount) * 1e9;
         const marketEggs = parseInt(globalStats.marketEggs);
-        const estimatedVaultBalance = 1e9;
+        // Add virtual 100 SOL offset to match contract
+        const virtualVaultBalance = (globalStats.tvl * 1e9) + 100_000_000_000;
         
-        const eggsBought = calculateTrade(lamports, estimatedVaultBalance, marketEggs);
+        const eggsBought = calculateTrade(lamports, virtualVaultBalance, marketEggs);
         const devFee = Math.floor(eggsBought * 10 / 100);
         const eggsAfterFee = eggsBought - devFee;
         const chickens = Math.floor(eggsAfterFee / 1_000);
@@ -88,9 +90,9 @@ export default function Home() {
 
       try {
         const marketEggs = parseInt(globalStats.marketEggs);
-        const estimatedVaultBalance = 1e9;
+        const vaultBalance = globalStats.tvl * 1e9; // Use actual TVL
         
-        const eggValue = calculateTrade(userStats.eggs, marketEggs, estimatedVaultBalance);
+        const eggValue = calculateTrade(userStats.eggs, marketEggs, vaultBalance);
         const devFee = Math.floor(eggValue * 10 / 100);
         const payout = (eggValue - devFee) / 1e9;
         
