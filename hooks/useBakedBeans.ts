@@ -72,7 +72,7 @@ export const useBakedBeans = () => {
             if (!userStatePda) return;
 
             try {
-                const userAccount = await program.account.userState.fetch(userStatePda);
+                const userAccount = await (program.account as any).UserState.fetch(userStatePda);
                 const clock = await connection.getBlockTime(await connection.getSlot());
                 
                 // Calculate current eggs
