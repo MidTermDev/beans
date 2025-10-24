@@ -445,6 +445,112 @@
         }
       ],
       "args": []
+    },
+    {
+      "name": "update_eggs_to_hatch",
+      "docs": [
+        "Admin: Update eggs_to_hatch_1miner (admin only)"
+      ],
+      "discriminator": [
+        10,
+        50,
+        170,
+        193,
+        194,
+        106,
+        50,
+        177
+      ],
+      "accounts": [
+        {
+          "name": "global_state",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  103,
+                  108,
+                  111,
+                  98,
+                  97,
+                  108,
+                  95,
+                  115,
+                  116,
+                  97,
+                  116,
+                  101
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "authority",
+          "signer": true
+        }
+      ],
+      "args": [
+        {
+          "name": "new_value",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "update_market_eggs",
+      "docs": [
+        "Admin: Update market_eggs (admin only)"
+      ],
+      "discriminator": [
+        78,
+        193,
+        214,
+        153,
+        195,
+        165,
+        206,
+        175
+      ],
+      "accounts": [
+        {
+          "name": "global_state",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  103,
+                  108,
+                  111,
+                  98,
+                  97,
+                  108,
+                  95,
+                  115,
+                  116,
+                  97,
+                  116,
+                  101
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "authority",
+          "signer": true
+        }
+      ],
+      "args": [
+        {
+          "name": "new_value",
+          "type": "u64"
+        }
+      ]
     }
   ],
   "accounts": [
