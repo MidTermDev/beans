@@ -17,6 +17,7 @@ export interface UserStats {
 export interface GlobalStats {
     marketEggs: string;
     devFeeVal: number;
+    tvl: number;
 }
 
 export const useBakedBeans = () => {
@@ -103,17 +104,22 @@ export const useBakedBeans = () => {
             const program = getProgram();
             if (!program) return;
 
-            const { globalStatePda } = getPDAs();
+            const { globalStatePda, vaultPda } = getPDAs();
             const globalAccount = await (program.account as any).globalState.fetch(globalStatePda);
+            
+            // Fetch vault balance for TVL
+            const vaultBalance = await connection.getBalance(vaultPda);
+            const tvlInSol = vaultBalance / LAMPORTS_PER_SOL;
 
             setGlobalStats({
                 marketEggs: globalAccount.marketEggs.toString(),
                 devFeeVal: globalAccount.devFeeVal,
+                tvl: tvlInSol,
             });
         } catch (error) {
             console.error('Error fetching global stats:', error);
         }
-    }, [getProgram, getPDAs]);
+    }, [getProgram, getPDAs, connection]);
 
     const initUser = useCallback(async () => {
         if (!wallet.publicKey) return;

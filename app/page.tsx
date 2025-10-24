@@ -229,13 +229,23 @@ export default function Home() {
 
               <div className="bg-white/90 rounded-lg shadow-lg p-4">
                 <h3 className="font-bold text-gray-900 mb-3 text-sm border-b pb-2">GLOBAL</h3>
-                <div className="flex justify-between items-center">
-                  <span className="text-xs text-gray-600">Market Eggs</span>
-                  <span className="text-lg font-bold text-blue-600">
-                    {globalStats ? 
-                      (parseInt(globalStats.marketEggs) / 1e9).toFixed(2) + 'B' : 
-                      '...'}
-                  </span>
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center">
+                    <span className="text-xs text-gray-600">TVL</span>
+                    <span className="text-lg font-bold text-green-600">
+                      {globalStats ? 
+                        globalStats.tvl.toFixed(2) + ' SOL' : 
+                        '...'}
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-xs text-gray-600">Market Eggs</span>
+                    <span className="text-lg font-bold text-blue-600">
+                      {globalStats ? 
+                        (parseInt(globalStats.marketEggs) / 1e9).toFixed(2) + 'B' : 
+                        '...'}
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
