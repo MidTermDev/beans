@@ -42,7 +42,7 @@ export default function Home() {
 
   const getMinersFromHatch = () => {
     if (!userStats) return 0;
-    return Math.floor(userStats.eggs / 10_000);
+    return Math.floor(userStats.eggs / 1_000);
   };
 
   const calculateTrade = (rt: number, rs: number, bs: number) => {
@@ -68,7 +68,7 @@ export default function Home() {
         const eggsBought = calculateTrade(lamports, estimatedVaultBalance, marketEggs);
         const devFee = Math.floor(eggsBought * 10 / 100);
         const eggsAfterFee = eggsBought - devFee;
-        const chickens = Math.floor(eggsAfterFee / 10_000);
+        const chickens = Math.floor(eggsAfterFee / 1_000);
         
         setPredictedChickens(chickens);
       } catch (err) {
@@ -282,19 +282,19 @@ export default function Home() {
                 <div className="bg-white/90 rounded-lg shadow-lg p-5">
                   <h3 className="font-bold text-gray-900 mb-2 text-sm border-b pb-2">HATCH EGGS</h3>
                   <p className="text-xs text-gray-600 mb-3">
-                    Convert 10,000 eggs → 1 chicken. ROI in just 1 day!
+                    Convert 1,000 eggs → 1 chicken. ROI in just hours!
                   </p>
-                  {userStats && userStats.eggs >= 10_000 && (
+                  {userStats && userStats.eggs >= 1_000 && (
                     <div className="bg-green-50 border border-green-300 rounded p-2 mb-3">
                       <p className="text-xs text-green-900 font-bold">
                         Ready: {getMinersFromHatch().toLocaleString()} chickens
                       </p>
                     </div>
                   )}
-                  {userStats && userStats.eggs < 10_000 && (
+                  {userStats && userStats.eggs < 1_000 && (
                     <div className="bg-orange-50 border border-orange-300 rounded p-2 mb-3">
                       <p className="text-xs text-orange-900">
-                        Need {(10_000 - userStats.eggs).toLocaleString()} more
+                        Need {(1_000 - userStats.eggs).toLocaleString()} more
                       </p>
                     </div>
                   )}
@@ -363,7 +363,7 @@ export default function Home() {
         <div className="mt-6 text-center">
           <div className="bg-green-100 border border-green-400 rounded-lg p-3 max-w-3xl mx-auto mb-4">
             <p className="text-sm text-green-900">
-              <span className="font-bold">Hatch your eggs daily for 1-day ROI!</span> Each chicken produces 1 egg per second. Just 10,000 eggs = 1 new chicken.
+              <span className="font-bold">Hatch every ~16 minutes for fast ROI!</span> Each chicken produces 1 egg per second. Just 1,000 eggs = 1 new chicken.
             </p>
           </div>
           <div className="space-y-1">
