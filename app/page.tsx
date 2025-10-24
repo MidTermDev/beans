@@ -370,12 +370,12 @@ export default function Home() {
             <p className="text-xs text-white drop-shadow">
               <span className="font-semibold">Program ID:</span>{' '}
               <a 
-                href="https://solscan.io/account/mHzHVz7h2YeiYNgaByaFn977em2sFFEt2vvdxp8khat" 
+                href="https://solscan.io/account/sRjNziU9MSEdRQsZwnzLDHKz4Xuzqq12bCXRzko4hat" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="font-mono hover:text-yellow-300 transition-colors underline"
               >
-                mHzHVz7h2YeiYNgaByaFn977em2sFFEt2vvdxp8khat
+                sRjNziU9MSEdRQsZwnzLDHKz4Xuzqq12bCXRzko4hat
               </a>
             </p>
             <p className="text-xs text-white drop-shadow">
