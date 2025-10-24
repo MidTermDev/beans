@@ -20,7 +20,6 @@ export default function Home() {
   } = useBakedBeans();
 
   const [buyAmount, setBuyAmount] = useState('0.01');
-  const [referrerAddress, setReferrerAddress] = useState('');
   const [timeUntilFullProduction, setTimeUntilFullProduction] = useState(0);
   const [predictedChickens, setPredictedChickens] = useState(0);
   const [predictedSolPayout, setPredictedSolPayout] = useState(0);
@@ -246,32 +245,20 @@ export default function Home() {
               {/* Buy */}
               <div className="bg-white/90 rounded-lg shadow-lg p-5">
                 <h3 className="font-bold text-gray-900 mb-3 text-sm border-b pb-2">BUY CHICKENS</h3>
-                <div className="grid md:grid-cols-2 gap-4 mb-4">
-                  <div>
-                    <label className="block text-xs font-bold text-gray-700 mb-1">Amount (SOL)</label>
-                    <input
-                      type="number"
-                      step="0.01"
-                      min="0.01"
-                      value={buyAmount}
-                      onChange={(e) => setBuyAmount(e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-orange-500 focus:outline-none text-gray-900 font-semibold"
-                      placeholder="0.01"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-bold text-gray-700 mb-1">Referrer (Optional)</label>
-                    <input
-                      type="text"
-                      value={referrerAddress}
-                      onChange={(e) => setReferrerAddress(e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-orange-500 focus:outline-none text-xs font-mono text-gray-900"
-                      placeholder="Wallet address"
-                    />
-                  </div>
+                <div className="mb-4">
+                  <label className="block text-xs font-bold text-gray-700 mb-1">Amount (SOL)</label>
+                  <input
+                    type="number"
+                    step="0.01"
+                    min="0.01"
+                    value={buyAmount}
+                    onChange={(e) => setBuyAmount(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-orange-500 focus:outline-none text-gray-900 font-semibold"
+                    placeholder="0.01"
+                  />
                 </div>
                 <button
-                  onClick={() => buyEggs(parseFloat(buyAmount), referrerAddress || undefined)}
+                  onClick={() => buyEggs(parseFloat(buyAmount))}
                   disabled={loading || !buyAmount || parseFloat(buyAmount) <= 0}
                   className="w-full bg-gradient-to-r from-orange-600 to-yellow-600 text-white font-bold py-2.5 px-4 rounded-lg hover:from-orange-700 hover:to-yellow-700 disabled:opacity-50 transition-all text-sm"
                 >
@@ -302,7 +289,7 @@ export default function Home() {
                     </div>
                   )}
                   <button
-                    onClick={() => hatchEggs(referrerAddress || undefined)}
+                    onClick={() => hatchEggs()}
                     disabled={loading || !userStats?.eggs}
                     className="w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white font-bold py-2.5 px-4 rounded-lg hover:from-green-700 hover:to-emerald-700 disabled:opacity-50 transition-all text-sm"
                   >

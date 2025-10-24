@@ -145,7 +145,7 @@ export const useBakedBeans = () => {
         }
     }, [wallet.publicKey, getProgram, getPDAs, fetchUserStats]);
 
-    const buyEggs = useCallback(async (solAmount: number, referrer?: string) => {
+    const buyEggs = useCallback(async (solAmount: number) => {
         if (!wallet.publicKey) return;
         
         setLoading(true);
@@ -159,28 +159,18 @@ export const useBakedBeans = () => {
             const globalAccount = await (program.account as any).globalState.fetch(globalStatePda);
             const lamports = solAmount * LAMPORTS_PER_SOL;
 
-            const referrerPubkey = referrer ? new PublicKey(referrer) : null;
-            const referrerStatePda = referrerPubkey
-                ? getPDAs(referrerPubkey).userStatePda
-                : null;
-
-            const accounts: any = {
-                globalState: globalStatePda,
-                userState: userStatePda,
-                buyer: wallet.publicKey,
-                vault: vaultPda,
-                devWallet: globalAccount.devWallet,
-                systemProgram: SystemProgram.programId,
-            };
-
-            if (referrerStatePda) {
-                accounts.referrerState = referrerStatePda;
-            }
-
             // Create transaction with SOL transfer - now automatically buys chickens!
-            const tx = await program.methods
-                .buyEggs(new BN(lamports), referrerPubkey)
-                .accounts(accounts)
+            const tx = await (program.methods
+                .buyEggs(new BN(lamports), null) as any)
+                .accounts({
+                    globalState: globalStatePda,
+                    userState: userStatePda,
+                    buyer: wallet.publicKey,
+                    vault: vaultPda,
+                    devWallet: globalAccount.devWallet,
+                    referrerState: null,
+                    systemProgram: SystemProgram.programId,
+                })
                 .preInstructions([
                     SystemProgram.transfer({
                         fromPubkey: wallet.publicKey,
@@ -200,7 +190,7 @@ export const useBakedBeans = () => {
         }
     }, [wallet.publicKey, getProgram, getPDAs, fetchUserStats]);
 
-    const hatchEggs = useCallback(async (referrer?: string) => {
+    const hatchEggs = useCallback(async () => {
         if (!wallet.publicKey) return;
         
         setLoading(true);
@@ -211,23 +201,14 @@ export const useBakedBeans = () => {
             const { globalStatePda, userStatePda } = getPDAs(wallet.publicKey);
             if (!userStatePda) throw new Error('Cannot derive PDA');
 
-            const referrerStatePda = referrer
-                ? getPDAs(new PublicKey(referrer)).userStatePda
-                : null;
-
-            const accounts: any = {
-                globalState: globalStatePda,
-                userState: userStatePda,
-                user: wallet.publicKey,
-            };
-
-            if (referrerStatePda) {
-                accounts.referrerState = referrerStatePda;
-            }
-
-            const tx = await program.methods
-                .hatchEggs(referrer ? new PublicKey(referrer) : null)
-                .accounts(accounts)
+            const tx = await (program.methods
+                .hatchEggs(null) as any)
+                .accounts({
+                    globalState: globalStatePda,
+                    userState: userStatePda,
+                    user: wallet.publicKey,
+                    referrerState: null,
+                })
                 .rpc();
 
             console.log('Hatch eggs tx:', tx);
