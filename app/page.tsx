@@ -369,9 +369,30 @@ export default function Home() {
               <span className="font-bold">Hatch your eggs daily for 1-day ROI!</span> Each chicken produces 1 egg per second. Just 10,000 eggs = 1 new chicken.
             </p>
           </div>
-          <p className="text-xs text-white drop-shadow font-mono">
-            6ATgUmpLogkkv6D5wnuJEtPe4Qrs9D9QCtrkf8X5egg
-          </p>
+          <div className="space-y-1">
+            <p className="text-xs text-white drop-shadow">
+              <span className="font-semibold">Program ID:</span>{' '}
+              <a 
+                href="https://solscan.io/account/6ATgUmpLogkkv6D5wnuJEtPe4Qrs9D9QCtrkf8X5egg" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="font-mono hover:text-yellow-300 transition-colors underline"
+              >
+                6ATgUmpLogkkv6D5wnuJEtPe4Qrs9D9QCtrkf8X5egg
+              </a>
+            </p>
+            <p className="text-xs text-white drop-shadow">
+              <span className="font-semibold">Token:</span>{' '}
+              <a 
+                href="https://solscan.io/token/wKwbmqBW4C8Na7pvu8Z89Bu1Y4C92JCpTp8Vuvrpump" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="font-mono hover:text-yellow-300 transition-colors underline"
+              >
+                wKwbmqBW4C8Na7pvu8Z89Bu1Y4C92JCpTp8Vuvrpump
+              </a>
+            </p>
+          </div>
         </div>
       </main>
     </div>
