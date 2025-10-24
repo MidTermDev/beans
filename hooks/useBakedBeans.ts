@@ -72,7 +72,7 @@ export const useBakedBeans = () => {
             if (!userStatePda) return;
 
             try {
-                const userAccount = await (program.account as any).UserState.fetch(userStatePda);
+                const userAccount = await (program.account as any).userState.fetch(userStatePda);
                 const clock = await connection.getBlockTime(await connection.getSlot());
                 
                 // Calculate current eggs
@@ -104,7 +104,7 @@ export const useBakedBeans = () => {
             if (!program) return;
 
             const { globalStatePda } = getPDAs();
-            const globalAccount = await program.account.globalState.fetch(globalStatePda);
+            const globalAccount = await (program.account as any).globalState.fetch(globalStatePda);
 
             setGlobalStats({
                 marketEggs: globalAccount.marketEggs.toString(),
@@ -156,7 +156,7 @@ export const useBakedBeans = () => {
             const { globalStatePda, vaultPda, userStatePda } = getPDAs(wallet.publicKey);
             if (!userStatePda) throw new Error('Cannot derive PDA');
 
-            const globalAccount = await program.account.globalState.fetch(globalStatePda);
+            const globalAccount = await (program.account as any).globalState.fetch(globalStatePda);
             const lamports = solAmount * LAMPORTS_PER_SOL;
 
             const referrerPubkey = referrer ? new PublicKey(referrer) : null;
@@ -164,18 +164,23 @@ export const useBakedBeans = () => {
                 ? getPDAs(referrerPubkey).userStatePda
                 : null;
 
+            const accounts: any = {
+                globalState: globalStatePda,
+                userState: userStatePda,
+                buyer: wallet.publicKey,
+                vault: vaultPda,
+                devWallet: globalAccount.devWallet,
+                systemProgram: SystemProgram.programId,
+            };
+
+            if (referrerStatePda) {
+                accounts.referrerState = referrerStatePda;
+            }
+
             // Create transaction with SOL transfer - now automatically buys chickens!
             const tx = await program.methods
                 .buyEggs(new BN(lamports), referrerPubkey)
-                .accounts({
-                    globalState: globalStatePda,
-                    userState: userStatePda,
-                    buyer: wallet.publicKey,
-                    vault: vaultPda,
-                    devWallet: globalAccount.devWallet,
-                    referrerState: referrerStatePda,
-                    systemProgram: SystemProgram.programId,
-                })
+                .accounts(accounts)
                 .preInstructions([
                     SystemProgram.transfer({
                         fromPubkey: wallet.publicKey,
@@ -210,14 +215,19 @@ export const useBakedBeans = () => {
                 ? getPDAs(new PublicKey(referrer)).userStatePda
                 : null;
 
+            const accounts: any = {
+                globalState: globalStatePda,
+                userState: userStatePda,
+                user: wallet.publicKey,
+            };
+
+            if (referrerStatePda) {
+                accounts.referrerState = referrerStatePda;
+            }
+
             const tx = await program.methods
                 .hatchEggs(referrer ? new PublicKey(referrer) : null)
-                .accounts({
-                    globalState: globalStatePda,
-                    userState: userStatePda,
-                    user: wallet.publicKey,
-                    referrerState: referrerStatePda,
-                })
+                .accounts(accounts)
                 .rpc();
 
             console.log('Hatch eggs tx:', tx);
@@ -241,7 +251,7 @@ export const useBakedBeans = () => {
             const { globalStatePda, vaultPda, userStatePda } = getPDAs(wallet.publicKey);
             if (!userStatePda) throw new Error('Cannot derive PDA');
 
-            const globalAccount = await program.account.globalState.fetch(globalStatePda);
+            const globalAccount = await (program.account as any).globalState.fetch(globalStatePda);
 
             const tx = await program.methods
                 .sellEggs()
